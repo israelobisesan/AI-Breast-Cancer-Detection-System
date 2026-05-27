@@ -24,7 +24,8 @@ GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', 'your-gemini-api-key-here')
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'change-this-to-random-string')
 
 # 3. Database file (you can leave this as default)
-DATABASE = 'breast_cancer_detector.db'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE = os.path.join(BASE_DIR, 'breast_cancer_detector.db')
 
 # ============================================
 # END OF CONFIGURATION
