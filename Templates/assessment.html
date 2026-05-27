@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Symptom Assessment - BreastHealth Checker{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 800px;">
+  <div class="text-center" style="margin-bottom: 32px;">
+    <h1 style="font-size: 1.75rem; font-weight: 700;">Breast Cancer Symptom Assessment</h1>
+    <p style="color: var(--text-secondary); margin-top: 8px;">Please answer honestly. All information is confidential and helps provide personalized guidance.</p>
+  </div>
+
+  <form method="POST" action="{{ url_for('assessment') }}" id="assessmentForm">
+    <div class="card">
+      <div class="form-group">
+        <label class="form-label">Gender</label>
+        <p class="form-hint">Breast cancer affects both women and men. Select your gender for accurate assessment.</p>
+        <div class="gender-selector">
+          <div class="gender-option">
+            <input type="radio" name="gender" id="female" value="female" required>
+            <label for="female">
+              <span class="gender-icon">&#9792;</span>
+              <span>Female</span>
+            </label>
+          </div>
+          <div class="gender-option">
+            <input type="radio" name="gender" id="male" value="male" required>
+            <label for="male">
+              <span class="gender-icon">&#9794;</span>
+              <span>Male</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Select All Symptoms You Are Experiencing</label>
+        <p class="form-hint">Check all that apply. Based on WHO and NHS clinical guidelines.</p>
+        <div class="symptom-grid">
+          {% for symptom in symptoms %}
+          <div class="symptom-item">
+            <input type="checkbox" name="symptoms" id="symptom_{{ symptom.id }}" value="{{ symptom.id }}">
+            <label for="symptom_{{ symptom.id }}">
+              <span class="symptom-check">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              {{ symptom.text }}
+            </label>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="location" class="form-label">Your Location</label>
+        <p class="form-hint">Please share your city or area so we can recommend nearby healthcare centers if needed.</p>
+        <input type="text" class="form-input" id="location" name="location"
+               placeholder="e.g., Lagos, Nigeria" />
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="form-label">Tell Us More About Your Symptoms</label>
+        <p class="form-hint">When did you first notice symptoms? Have they changed over time? Any other details you'd like to share?</p>
+        <textarea
+          class="form-textarea"
+          id="description"
+          name="description"
+          placeholder="Example: I noticed a small lump in my left breast about 2 weeks ago. It doesn't hurt, but I'm concerned because it seems to be getting slightly larger..."
+        ></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg btn-block" id="submitBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c-.5 0-1-.14-1.41-.41C7.6 18.08 3 14.17 3 9.5 3 5.91 5.91 3 9.5 3c1.6 0 3.04.63 4.12 1.64a18.31 18.31 0 0 1 1.46 1.41l.42.45.42-.45a18.5 18.5 0 0 1 1.46-1.41A5.88 5.88 0 0 1 21 3.89"/></svg>
+        Get AI Assessment
+      </button>
+    </div>
+  </form>
+
+  <div class="disclaimer">
+    <strong>Privacy Note:</strong> If you're not logged in, your assessment will not be saved. To save results and view history, <a href="{{ url_for('register') }}" style="color: var(--primary); text-decoration: underline;">create a free account</a> or <a href="{{ url_for('login') }}" style="color: var(--primary); text-decoration: underline;">login</a>.
+  </div>
+</div>
+
+<div class="selection-badge" id="selectionBadge">0</div>
+
+<script>
+(function() {
+  const checkboxes = document.querySelectorAll('input[name="symptoms"]');
+  const badge = document.getElementById('selectionBadge');
+  const form = document.getElementById('assessmentForm');
+  const submitBtn = document.getElementById('submitBtn');
+
+  function updateBadge() {
+    const checked = document.querySelectorAll('input[name="symptoms"]:checked').length;
+    if (checked > 0) {
+      badge.textContent = checked;
+      badge.classList.add('visible');
+    } else {
+      badge.classList.remove('visible');
+    }
+  }
+
+  checkboxes.forEach(cb => cb.addEventListener('change', updateBadge));
+
+  form.addEventListener('submit', function(e) {
+    const checked = document.querySelectorAll('input[name="symptoms"]:checked').length;
+    if (checked === 0) {
+      e.preventDefault();
+      alert('Please select at least one symptom.');
+      return;
+    }
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2" stroke-linecap="round"/></svg> Analyzing...</span>';
+  });
+})();
+</script>
+{% endblock %}

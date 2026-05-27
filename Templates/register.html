@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up - BreastHealth Checker{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card">
+    <h1>Create Free Account</h1>
+    <p class="auth-subtitle">Save your assessments and track your health over time</p>
+
+    <form method="POST" action="{{ url_for('register') }}">
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" class="form-input" id="email" name="email" required placeholder="your@email.com" />
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-input" id="password" name="password" required minlength="6" placeholder="At least 6 characters" />
+      </div>
+
+      <div class="form-group">
+        <label for="confirm_password" class="form-label">Confirm Password</label>
+        <input type="password" class="form-input" id="confirm_password" name="confirm_password" required placeholder="Re-enter your password" />
+      </div>
+
+      <div class="form-group">
+        <label class="auth-checkbox">
+          <input type="checkbox" required />
+          <span>I understand this tool does not provide medical diagnosis and I should consult a healthcare professional for any health concerns.</span>
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg btn-block">Create Account</button>
+    </form>
+
+    <div class="auth-divider">
+      <p>Already have an account?</p>
+      <a href="{{ url_for('login') }}" class="btn btn-outline" style="width:100%;">Sign In</a>
+    </div>
+
+    <div class="auth-benefits">
+      <h3>&#9733; What you get</h3>
+      <ul>
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="min-width:16px;"><polyline points="20 6 9 17 4 12"/></svg>
+          Save unlimited assessment results
+        </li>
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="min-width:16px;"><polyline points="20 6 9 17 4 12"/></svg>
+          View complete assessment history
+        </li>
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="min-width:16px;"><polyline points="20 6 9 17 4 12"/></svg>
+          Access from any device
+        </li>
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="min-width:16px;"><polyline points="20 6 9 17 4 12"/></svg>
+          100% private, secure, and free
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+  var password = document.getElementById('password').value;
+  var confirm = document.getElementById('confirm_password').value;
+  if (password !== confirm) {
+    e.preventDefault();
+    alert('Passwords do not match. Please try again.');
+  }
+});
+</script>
+{% endblock %}

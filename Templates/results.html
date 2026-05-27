@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Assessment Results - BreastHealth Checker{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 800px;">
+  <div class="card" style="text-align: center; padding: 40px 32px;">
+    <div class="risk-section">
+      <div class="risk-gauge" id="riskGauge">
+        <svg width="220" height="220" viewBox="0 0 220 220">
+          <circle class="risk-gauge-bg" cx="110" cy="110" r="95"/>
+          <circle class="risk-gauge-fill" id="gaugeFill" cx="110" cy="110" r="95"
+            stroke-dasharray="596.9"
+            stroke-dashoffset="596.9"
+            stroke="{% if assessment.risk_percentage < 30 %}var(--success){% elif assessment.risk_percentage < 50 %}var(--warning){% elif assessment.risk_percentage < 70 %}var(--danger){% else %}var(--accent){% endif %}"/>
+        </svg>
+        <div class="risk-gauge-center">
+          <div class="risk-gauge-value" id="gaugeValue">0%</div>
+          <div class="risk-gauge-label">Risk Level</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 8px;">
+        <span class="risk-label
+          {% if assessment.risk_percentage < 30 %}risk-label-low
+          {% elif assessment.risk_percentage < 50 %}risk-label-moderate
+          {% else %}risk-label-high{% endif %}">
+          {% if assessment.risk_percentage < 30 %}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Lower Risk
+          {% elif assessment.risk_percentage < 50 %}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Moderate Risk
+          {% else %}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Elevated Risk
+          {% endif %}
+        </span>
+      </div>
+      <p style="color: var(--text-tertiary); font-size: 0.85rem; margin-top: 4px;">Based on reported symptoms vs. clinical guidelines</p>
+    </div>
+  </div>
+
+  <div class="ai-response">{{ assessment.ai_response }}</div>
+
+  <div class="action-buttons">
+    {% if is_logged_in %}
+      <button onclick="saveResult()" class="btn btn-accent" id="saveBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Save Result
+      </button>
+      <a href="{{ url_for('dashboard') }}" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        My Dashboard
+      </a>
+    {% else %}
+      <a href="{{ url_for('register') }}" class="btn btn-accent">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Save Results &mdash; Create Account
+      </a>
+    {% endif %}
+    <a href="{{ url_for('assessment') }}" class="btn btn-outline">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      New Assessment
+    </a>
+  </div>
+
+  <div class="next-steps">
+    <h3>What Should I Do Next?</h3>
+    <ul>
+      <li>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="min-width:18px;margin-top:2px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span><strong>See a Doctor:</strong> Book an appointment with your healthcare provider as recommended above.</span>
+      </li>
+      <li>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="min-width:18px;margin-top:2px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span><strong>Don't Delay:</strong> Early detection significantly improves treatment outcomes.</span>
+      </li>
+      <li>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="min-width:18px;margin-top:2px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span><strong>Prepare:</strong> Write down when symptoms started, changes you've noticed, and questions to ask.</span>
+      </li>
+      <li>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="min-width:18px;margin-top:2px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span><strong>Stay Calm:</strong> Most breast lumps and symptoms are NOT cancer, but getting checked is always the right decision.</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="disclaimer">
+    <strong>&#9888; CRITICAL REMINDER:</strong> This assessment is NOT a medical diagnosis. It is an educational tool based on symptom patterns from WHO and NHS clinical guidelines. Only a qualified healthcare professional can diagnose breast cancer through physical examination, imaging, and biopsy. Please seek professional medical care.
+  </div>
+</div>
+
+<script>
+window.addEventListener('load', function() {
+  var target = {{ assessment.risk_percentage }};
+  var circumference = 596.9;
+  var offset = circumference - (target / 100 * circumference);
+  var fill = document.getElementById('gaugeFill');
+
+  setTimeout(function() {
+    fill.setAttribute('stroke-dashoffset', offset);
+  }, 100);
+
+  var counter = 0;
+  var valueEl = document.getElementById('gaugeValue');
+  var interval = setInterval(function() {
+    counter++;
+    valueEl.textContent = counter + '%';
+    if (counter >= target) clearInterval(interval);
+  }, 15);
+});
+
+function saveResult() {
+  var btn = document.getElementById('saveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2" stroke-linecap="round"/></svg> Saving...</span>';
+
+  fetch('{{ url_for("save_result") }}', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success) {
+      btn.innerHTML = '&#10003; Saved!';
+      btn.style.background = 'var(--success)';
+      setTimeout(function() { window.location.href = '{{ url_for("dashboard") }}'; }, 1000);
+    } else {
+      alert('Error saving result: ' + data.message);
+      btn.disabled = false;
+      btn.innerHTML = 'Save Result';
+    }
+  })
+  .catch(function() {
+    alert('Error saving result. Please try again.');
+    btn.disabled = false;
+    btn.innerHTML = 'Save Result';
+  });
+}
+</script>
+{% endblock %}

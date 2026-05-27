@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Login - BreastHealth Checker{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card">
+    <h1>Welcome Back</h1>
+    <p class="auth-subtitle">Sign in to access your saved assessments</p>
+
+    <form method="POST" action="{{ url_for('login') }}">
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" class="form-input" id="email" name="email" required placeholder="your@email.com" />
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-input" id="password" name="password" required placeholder="Enter your password" />
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg btn-block">Sign In</button>
+    </form>
+
+    <div class="auth-divider">
+      <p>Don't have an account?</p>
+      <a href="{{ url_for('register') }}" class="btn btn-outline" style="width:100%;">Create Free Account</a>
+    </div>
+
+    <div class="auth-benefits">
+      <h3>&#9733; Why create an account?</h3>
+      <ul>
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="min-width:16px;"><polyline points="20 6 9 17 4 12"/></svg>
+          Save unlimited assessment results
+        </li>
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="min-width:16px;"><polyline points="20 6 9 17 4 12"/></svg>
+          View your complete health history
+        </li>
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="min-width:16px;"><polyline points="20 6 9 17 4 12"/></svg>
+          Track symptom changes over time
+        </li>
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="min-width:16px;"><polyline points="20 6 9 17 4 12"/></svg>
+          100% free, private, and secure
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

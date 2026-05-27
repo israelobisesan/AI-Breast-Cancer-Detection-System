@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Breast Health Checker{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="{{ url_for('index') }}" class="logo">
+        <span class="logo-icon">&#9829;</span>
+        <span>BreastHealth</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="{{ url_for('index') }}" {% if request.path == url_for('index') %}class="active"{% endif %}>Home</a></li>
+        <li><a href="{{ url_for('assessment') }}" {% if request.path == url_for('assessment') %}class="active"{% endif %}>Assessment</a></li>
+        {% if session.user_id %}
+        <li><a href="{{ url_for('dashboard') }}" {% if request.path == url_for('dashboard') %}class="active"{% endif %}>Dashboard</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+        <li><a href="{{ url_for('login') }}" {% if request.path == url_for('login') %}class="active"{% endif %}>Login</a></li>
+        <li><a href="{{ url_for('register') }}" class="cta" {% if request.path == url_for('register') %}class="active"{% endif %}>Sign Up</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flash-container">
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  <main>{% block content %}{% endblock %}</main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3>&#9829; BreastHealth Checker</h3>
+        <p>AI-powered symptom assessment for early breast cancer awareness. Our tool follows WHO and NHS clinical guidelines to provide educational guidance.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('assessment') }}">Assessment</a>
+        {% if not session.user_id %}
+        <a href="{{ url_for('register') }}">Create Account</a>
+        {% endif %}
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="https://www.who.int/news-room/fact-sheets/detail/breast-cancer" target="_blank" rel="noopener">WHO Guidelines</a>
+        <a href="https://www.nhs.uk/conditions/breast-cancer/" target="_blank" rel="noopener">NHS Information</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p><strong>IMPORTANT:</strong> This tool is for informational purposes only and does NOT provide medical diagnosis. Always consult a qualified healthcare professional.</p>
+      <p style="margin-top: 8px;">&copy; 2026 BreastHealth Checker &mdash; Early Detection Saves Lives</p>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

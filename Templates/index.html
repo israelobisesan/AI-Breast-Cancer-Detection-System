@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}BreastHealth Checker - AI-Powered Symptom Assessment{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero-badge">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c-.5 0-1-.14-1.41-.41C7.6 18.08 3 14.17 3 9.5 3 5.91 5.91 3 9.5 3c1.6 0 3.04.63 4.12 1.64a18.31 18.31 0 0 1 1.46 1.41l.42.45.42-.45a18.5 18.5 0 0 1 1.46-1.41A5.88 5.88 0 0 1 21 3.89"/></svg>
+    WHO &amp; NHS Clinical Guidelines
+  </div>
+  <h1>Early Detection<br /><span>Saves Lives</span></h1>
+  <p>Get a free, AI-powered assessment of your breast cancer symptoms. Based on medical guidelines, private and secure.</p>
+  <div class="hero-actions">
+    <a href="{{ url_for('assessment') }}" class="btn btn-primary btn-lg">Start Free Assessment</a>
+    <a href="#facts" class="btn btn-outline btn-lg">Learn More</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-value">2.3M</div>
+      <div class="hero-stat-label">Women diagnosed annually</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">40%</div>
+      <div class="hero-stat-label">Mortality drop with screening</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">&lt;3 min</div>
+      <div class="hero-stat-label">Assessment time</div>
+    </div>
+  </div>
+</section>
+
+<div class="container" id="facts">
+  <div class="section-title">Understanding Breast Cancer</div>
+  <p class="section-subtitle">Breast cancer develops when abnormal breast cells grow uncontrollably, forming tumors that can spread if not detected early.</p>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-card-icon" style="background: var(--primary-50); color: var(--primary);">&#127891;</div>
+      <h3>Global Impact</h3>
+      <p>Breast cancer is the most common cancer among women worldwide, with <strong>2.3 million cases</strong> and approximately <strong>670,000 deaths</strong> globally.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background: var(--success-light); color: var(--success);">&#9881;</div>
+      <h3>Who Is At Risk?</h3>
+      <p>Occurs in women of all ages after puberty, with rates increasing in later life. <strong>99% occur in women</strong>, but men can also develop breast cancer.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background: var(--accent-light); color: var(--accent);">&#9733;</div>
+      <h3>Early Detection</h3>
+      <p>In countries with effective screening programs, breast cancer mortality has dropped by <strong>40% since the 1980s</strong>. Early detection is critical.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background: var(--warning-light); color: var(--warning);">&#9888;</div>
+      <h3>Risk Factors</h3>
+      <p>Common risk factors include age (over 40), family history, obesity, alcohol use, radiation exposure, and genetic mutations (BRCA1, BRCA2).</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background: var(--primary-50); color: var(--primary);">&#10003;</div>
+      <h3>Survival Rates</h3>
+      <p>When detected early and treated properly, breast cancer has <strong>high survival rates</strong>. Regular screening dramatically improves outcomes.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background: var(--accent-light); color: var(--accent);">&#9829;</div>
+      <h3>Take Action</h3>
+      <p>Regular self-examination and awareness of breast changes are crucial. If you notice unusual symptoms, <strong>seek medical advice promptly</strong>.</p>
+    </div>
+  </div>
+
+  <div class="steps-section">
+    <div class="section-title">How It Works</div>
+    <p class="section-subtitle" style="margin-bottom: 0;">Complete your assessment in three simple steps</p>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-text">
+          <h4>Complete the Assessment</h4>
+          <p>Select your symptoms from a comprehensive checklist based on WHO and NHS clinical guidelines.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-text">
+          <h4>AI Analysis</h4>
+          <p>Our AI analyzes your symptoms and provides a risk percentage with detailed, compassionate guidance.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-text">
+          <h4>Get Next Steps</h4>
+          <p>Receive personalized recommendations on when and how urgently to seek medical care.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <strong>&#9888; IMPORTANT:</strong> This tool does NOT diagnose breast cancer. It provides educational information and risk assessment based on reported symptoms. Only a qualified healthcare professional can diagnose breast cancer through proper clinical examination, imaging, and biopsy. If you have concerning symptoms, please see a doctor.
+  </div>
+
+  <div class="text-center" style="padding: 24px 0 8px;">
+    <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 8px;">Ready to Check Your Symptoms?</h2>
+    <p style="color: var(--text-secondary); margin-bottom: 24px;">Takes less than 3 minutes &middot; Free &middot; Private &amp; Secure</p>
+    <a href="{{ url_for('assessment') }}" class="btn btn-primary btn-lg">Start Assessment Now</a>
+  </div>
+</div>
+{% endblock %}
